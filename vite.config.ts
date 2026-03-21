@@ -7,4 +7,5 @@ export default defineConfig({
 		hmr: false,
 	},
 	plugins: [react()],
+	base: '/checklist-v2/',
 })
