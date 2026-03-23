@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
 import { Task } from '../todoItem/Task'
 import styles from './TodoList.module.css'
+import type { TasksList } from '../../types/types'
 
-const tasks = [
+const tasksList = [
 	{
 		id: "123e4567-e89b-12d3-a456-426614174000",
 		text: "Купить продукты",
@@ -34,7 +36,20 @@ const tasks = [
 	},
 ]
 
+
+
 export const TodoList = () => {
+	const [tasks, setTasks] = useState<TasksList | null>(null)
+
+	useEffect(() => {
+		setTasks(tasksList)
+	}, [])
+
+	if (tasks === null) {
+		return <div className={styles.empty}>
+			<h3>Загрузка...</h3>
+		</div>
+	}
 
 	if (tasks.length === 0) {
 		return <div className={styles.empty}>

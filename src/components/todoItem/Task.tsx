@@ -3,16 +3,12 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { IoIosSave } from "react-icons/io";
 import { useState } from "react";
 import styles from './Task.module.css'
+import type { TaskItem } from "../../types/types";
 
 type Props = {
-	task: Task
+	task: TaskItem
 }
 
-type Task = {
-	id: string
-	text: string
-	done: boolean
-}
 
 export const Task = ({task}: Props) => {
 	const [isEdit, setIsEdit] = useState(false);
@@ -28,7 +24,7 @@ export const Task = ({task}: Props) => {
 					onChange={() => {}}
 				/>
 				<span 
-					className={task.done && styles.done}
+					className={task.done ? styles.done : ''}
 				>{task.text}</span>
 				{/* <input 
 					className={`todo-item-input ${!this.state.isEdit && 'none'}`}
