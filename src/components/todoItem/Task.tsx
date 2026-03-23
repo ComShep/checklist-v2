@@ -21,20 +21,20 @@ export const Task = ({ task, onEdit, onCheck, onDelete }: Props) => {
 		setInputValue(event.target.value)
 	}
 
-	const editItem = () => {
+	const handleEditItem = () => {
 		setIsEdit(true)
 	}
 
-	const saveItem = () => {
+	const handleSaveItem = () => {
 		onEdit(task.id, inputValue)
 		setIsEdit(false)
 	}
 
-	const checkItem = () => {
+	const handleCheckItem = () => {
 		onCheck(task.id)
 	}
 
-	const deleteItem = () => {
+	const handleDeleteItem = () => {
 		onDelete(task.id)
 	}
 
@@ -59,7 +59,7 @@ export const Task = ({ task, onEdit, onCheck, onDelete }: Props) => {
 				className={checkbox}
 				type="checkbox"
 				checked={task.done}
-				onChange={checkItem}
+				onChange={handleCheckItem}
 			/>
 			<span
 				className={text}
@@ -73,18 +73,18 @@ export const Task = ({ task, onEdit, onCheck, onDelete }: Props) => {
 				{isEdit ?
 					<button
 						className={styles.button}
-						onClick={saveItem}
+						onClick={handleSaveItem}
 						disabled={inputValue === ''}>
 						<IoIosSave />
 					</button>
 					:
 					<IoPencilSharp
 						className={styles.button}
-						onClick={editItem}
+						onClick={handleEditItem}
 					/>}
 				<IoIosCloseCircle
 					className={styles.button}
-					onClick={deleteItem}
+					onClick={handleDeleteItem}
 				/>
 			</div>
 		</div>
