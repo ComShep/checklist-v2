@@ -36,14 +36,40 @@ const tasksList = [
 	},
 ]
 
-
-
 export const TodoList = () => {
 	const [tasks, setTasks] = useState<TasksList | null>(null)
 
 	useEffect(() => {
 		setTasks(tasksList)
 	}, [])
+
+	const editTask = (id: string, text: string) => {
+		if (tasks !== null) {
+			setTasks(tasks.map(task => {
+				if (task.id === id) {
+					return { ...task, text: text}
+				}
+				return task
+			}))
+		}
+	}
+
+	const checkTask = (id: string) => {
+		if (tasks !== null) {
+			setTasks(tasks.map(task => {
+				if (task.id === id) {
+					return { ...task, done: !task.done}
+				}
+			return task
+			}))
+		}
+	}
+
+	const deleteTask = (id: string) => {
+		if (tasks !== null) {
+			setTasks(tasks?.filter(task => task.id !== id))
+		} 
+	}
 
 	if (tasks === null) {
 		return <div className={styles.empty}>
@@ -64,9 +90,9 @@ export const TodoList = () => {
 				<Task
 					key={task.id}
 					task={task}
-					// onCheck={() => {}}
-					// onDelete={() => {}}
-					// onEdit={() => {}}
+					onCheck={checkTask}
+					onDelete={deleteTask}
+					onEdit={editTask}
 				/>
 			))}
 		</div>
