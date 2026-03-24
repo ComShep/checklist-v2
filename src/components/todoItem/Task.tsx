@@ -9,7 +9,7 @@ import clsx from "clsx";
 type Props = {
 	task: TaskItem
 	onEdit: (id: string, text: string) => void
-	onCheck: (id: string) => void
+	onCheck: (id: string, currentDone: boolean) => void
 	onDelete: (id: string) => void
 }
 
@@ -31,7 +31,7 @@ export const Task = ({ task, onEdit, onCheck, onDelete }: Props) => {
 	}
 
 	const handleCheckItem = () => {
-		onCheck(task.id)
+		onCheck(task.id, task.done)
 	}
 
 	const handleDeleteItem = () => {

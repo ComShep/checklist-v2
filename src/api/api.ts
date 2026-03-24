@@ -2,6 +2,7 @@ import type { TasksPesponse } from "../types/types"
 
 const url = "https://vue-with-http-6c4e8-default-rtdb.europe-west1.firebasedatabase.app/"
 
+// запрос списка задач
 export const getTasksApi = async (): Promise<TasksPesponse> => {
 	const response = await fetch(`${url}tasks.json`)
 	const data = await response.json();
@@ -9,6 +10,7 @@ export const getTasksApi = async (): Promise<TasksPesponse> => {
 	return data
 }
 
+// запрос на добавление задачи
 export const addTaskApi = async (inputValue: string) => {
 	const newTask = {
 		text: inputValue,
@@ -30,4 +32,37 @@ export const addTaskApi = async (inputValue: string) => {
 		id: firebaseId,
 		...newTask
 	}
+}
+
+// запрос на удаление задачи
+export const deleteTaskApi = async (id: string) => {
+	const response = await fetch(`${url}tasks/${id}.json`, {
+		method: "DELETE",
+	})
+
+	if (!response.ok) {
+		throw new Error('Ошибка удаления')
+	}
+
+	return true
+}
+
+// запрос на изменение чек-бокса
+export const toggleTask = async (id: string, currentDone: boolean) => {
+	const response = await fetch(`${url}tasks/${id}.json`, {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			done: !currentDone
+		})
+	})
+
+	if (!response.ok) {
+		throw new Error('Ошибка обновления')
+	}
+
+	const result = await response.json()
+	return result
 }

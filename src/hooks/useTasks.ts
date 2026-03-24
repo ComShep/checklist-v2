@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { TasksList, UseTaskReturn } from '../types/types';
-import { addTaskApi, getTasksApi } from '../api/api';
+import { addTaskApi, deleteTaskApi, getTasksApi, toggleTask } from '../api/api';
 
 
 export function useTasks(): UseTaskReturn {
@@ -48,28 +48,40 @@ export function useTasks(): UseTaskReturn {
 		}
 	}
 
-	const checkTask = (id: string) => {
+	const checkTask = async (id: string, currentDone: boolean) => {
 		if (tasks !== null) {
-			setTasks(tasks.map(task => {
-				if (task.id === id) {
-					return { ...task, done: !task.done }
+			const prevTasks = [...tasks]
+			try {
+				await toggleTask(id, currentDone)
+				setTasks(tasks.map(task => {
+					if (task.id === id) {
+						return { ...task, done: !task.done }
+					}
+					return task
+				}))
+			} catch (err) {
+				setTasks(prevTasks)
+				console.log(err)
+			}
+		}
+	}
+
+		const deleteTask = async (id: string) => {
+			if (tasks !== null) {
+				try {
+					await deleteTaskApi(id)
+					setTasks(tasks.filter(task => task.id !== id))
+				} catch (err) {
+					console.log(err)
 				}
-				return task
-			}))
+			}
+		}
+
+		return {
+			tasks,
+			addTask,
+			editTask,
+			checkTask,
+			deleteTask
 		}
 	}
-
-	const deleteTask = (id: string) => {
-		if (tasks !== null) {
-			setTasks(tasks.filter(task => task.id !== id))
-		}
-	}
-
-	return  {
-		tasks,
-		addTask,
-		editTask,
-		checkTask,
-		deleteTask
-	}
-}

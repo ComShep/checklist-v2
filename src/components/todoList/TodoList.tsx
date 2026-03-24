@@ -4,7 +4,7 @@ import type { TasksList } from '../../types/types'
 
 type Props = {
 	tasks: TasksList | null,
-	onCheck: (id: string) => void,
+	onCheck: (id: string, currentDone: boolean) => void,
 	onDelete: (id: string) => void
 	onEdit: (id: string, text: string) => void
 }
