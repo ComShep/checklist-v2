@@ -13,3 +13,10 @@ export type TaskItem = {
 
 export type TasksList = Array<TaskItem>
 
+export type UseTaskReturn = {
+	tasks: TasksList | null
+	addTask: (inputValue: string) => Promise<void>;
+	editTask: (id: string, text: string) => void;
+	checkTask: (id: string) => void;
+	deleteTask: (id: string) => void;
+}
