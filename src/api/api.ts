@@ -48,7 +48,7 @@ export const deleteTaskApi = async (id: string) => {
 }
 
 // запрос на изменение чек-бокса
-export const toggleTask = async (id: string, currentDone: boolean) => {
+export const toggleTaskApi = async (id: string, currentDone: boolean) => {
 	const response = await fetch(`${url}tasks/${id}.json`, {
 		method: "PATCH",
 		headers: {
@@ -64,5 +64,26 @@ export const toggleTask = async (id: string, currentDone: boolean) => {
 	}
 
 	const result = await response.json()
+	return result
+}
+
+// запрос на изменение текста задачи
+
+export const editTaskApi = async (id: string, text: string) => {
+	const response = await fetch(`${url}tasks/${id}.json`, {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			text: text.trim()
+		})
+	})
+
+	if (!response.ok) {
+		throw new Error('Ошибка обновления')
+	}
+
+	const result = await response.json();
 	return result
 }
