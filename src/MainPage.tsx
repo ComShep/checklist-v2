@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid';
 import { Footer } from './components/footer/Footer'
 import { Header } from './components/header/Header'
 import { Input } from './components/input/Input'
@@ -7,7 +6,7 @@ import { Statistic } from './components/statistic/Statistic'
 import { TodoList } from './components/todoList/TodoList'
 import type { TasksList } from './types/types'
 import styles from './MainPage.module.css'
-import { getTasks } from './api/api';
+import { addTaskApi, getTasksApi } from './api/api';
 
 const tasksList = [
 	{
@@ -51,14 +50,14 @@ export const MainPage = () => {
 	}, [])
 
 	useEffect(() => {
-		getTasks().then(data => {
+		getTasksApi().then(data => {
 			const arrayOfData = Object.entries(data)
 			const arrayOfTasks = arrayOfData.map(([id, task]) => ({
 				id: id,
 				...task
 			}))
 
-			setTasksApi(arrayOfTasks)
+			setTasks(arrayOfTasks)
 		})
 
 	}, [])
@@ -91,14 +90,13 @@ export const MainPage = () => {
 		}
 	}
 
-	const addTask = (inputValue: string) => {
-		const newTask = {
-			id: uuidv4(),
-			text: inputValue,
-			done: false
-		}
-		if (tasks !== null) {
+	const addTask = async (inputValue: string) => {
+		
+		const newTask = await addTaskApi(inputValue)
+
+		if ( tasks !== null) {
 		setTasks([...tasks, newTask])
+		// setTasksApi([...tasksApi, newTask])
 		} else {
 			setTasks([newTask])
 		}
