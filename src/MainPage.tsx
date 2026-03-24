@@ -7,6 +7,7 @@ import { Statistic } from './components/statistic/Statistic'
 import { TodoList } from './components/todoList/TodoList'
 import type { TasksList } from './types/types'
 import styles from './MainPage.module.css'
+import { getTasks } from './api/api';
 
 const tasksList = [
 	{
@@ -43,9 +44,23 @@ const tasksList = [
 
 export const MainPage = () => {
 	const [tasks, setTasks] = useState<TasksList | null>(null)
+	const [tasksApi, setTasksApi] = useState<TasksList | null>(null)
 
 	useEffect(() => {
 		setTasks(tasksList)
+	}, [])
+
+	useEffect(() => {
+		getTasks().then(data => {
+			const arrayOfData = Object.entries(data)
+			const arrayOfTasks = arrayOfData.map(([id, task]) => ({
+				id: id,
+				...task
+			}))
+
+			setTasksApi(arrayOfTasks)
+		})
+
 	}, [])
 
 	const editTask = (id: string, text: string) => {
@@ -92,7 +107,9 @@ export const MainPage = () => {
 	return (
 		<div className={styles.wrapper}>
 			<Header />
-			<Statistic />
+			<Statistic 
+				tasks={tasks}
+			/>
 			<Input 
 				onAdd={addTask}
 			/>
