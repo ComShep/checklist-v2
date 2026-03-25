@@ -10,7 +10,6 @@ export const Statistic = ({tasks}: Props) => {
 	const completed = tasks === null ? 0 : (tasks.filter(task => task.done === true)).length; 
 	const active = total - completed;
 
-
 	return (
 		<div className={styles.stats}>
 			<div className={styles.item}>

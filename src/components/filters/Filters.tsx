@@ -7,7 +7,6 @@ type Props = {
 }
 
 export const Filters = ({ activeFilter, onSetActiveFilter }: Props) => {
-
 	const filterButtonName = [
 		{
 			key: 'all',

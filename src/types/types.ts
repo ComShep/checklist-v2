@@ -22,5 +22,4 @@ export type UseTaskReturn = {
 	deleteTask: (id: string) => void;
 	activeFilter: string;
 	setActiveFilter: (activeFilter: string) => void
-	getFilteredTasks: (activeFilter: string) => void
 }
