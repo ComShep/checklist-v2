@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react'
 import type { TasksList, UseTaskReturn } from '../types/types';
 import { addTaskApi, deleteTaskApi, editTaskApi, getTasksApi, toggleTaskApi } from '../api/api';
 
-
 export function useTasks(): UseTaskReturn {
 	const [tasks, setTasks] = useState<TasksList | null>(null)
+	const [filteredTasks, setFilteredTasks] = useState<TasksList | null>(null)
+	const [activeFilter, setActiveFilter] = useState<string>('all')
 
 	useEffect(() => {
 		loadData();
 	}, [])
+
+	useEffect(() => {
+		getFilteredTasks(activeFilter);
+	}, [tasks, activeFilter])
 
 	const loadData = async () => {
 		try {
@@ -22,12 +27,9 @@ export function useTasks(): UseTaskReturn {
 		} catch (err) {
 			console.log(err)
 		}
-
-
 	}
 
 	const addTask = async (inputValue: string) => {
-
 		const newTask = await addTaskApi(inputValue)
 
 		if (tasks !== null) {
@@ -84,11 +86,32 @@ export function useTasks(): UseTaskReturn {
 		}
 	}
 
+	const getFilteredTasks = async (activeFilter: string) => {
+		if (!tasks) {
+			setFilteredTasks(null)
+			return
+		}
+
+		if (activeFilter === 'active') {
+			console.log(tasks?.filter(task => !task.done))
+			setFilteredTasks(tasks?.filter(task => !task.done))
+		} else if (activeFilter === 'done') {
+			console.log(tasks?.filter(task => task.done))
+			setFilteredTasks(tasks?.filter(task => task.done))
+		} else {
+			setFilteredTasks(tasks)
+		}
+	}
+
 	return {
 		tasks,
+		filteredTasks,
 		addTask,
 		editTask,
 		checkTask,
-		deleteTask
+		deleteTask,
+		activeFilter,
+		setActiveFilter,
+		getFilteredTasks
 	}
 }

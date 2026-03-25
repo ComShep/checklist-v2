@@ -1,0 +1,28 @@
+.filters {
+	padding: 15px 30px;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	background-color: #f8f9fa;
+	border-bottom: 1px solid #eaeaea;
+}
+
+.btn {
+	padding: 8px 20px;
+	border: 1px solid #ddd;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 14px;
+	transition: all 0.2s;
+	background-color: white;
+}
+
+.btn:hover:not(.active) {
+	background-color: #f0f0f0;
+}
+
+.active {
+	background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+	color: white;
+	border-color: #2575fc;
+}

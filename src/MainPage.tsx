@@ -5,9 +5,19 @@ import { Statistic } from './components/statistic/Statistic'
 import { TodoList } from './components/todoList/TodoList'
 import styles from './MainPage.module.css'
 import { useTasks } from './hooks/useTasks'
+import { Filters } from './components/filters/Filters'
 
 export const MainPage = () => {
-	const {tasks, addTask, editTask, checkTask, deleteTask} = useTasks();
+	const {
+		tasks,
+		filteredTasks,
+		addTask, 
+		editTask, 
+		checkTask, 
+		deleteTask, 
+		activeFilter, 
+		setActiveFilter, 
+	} = useTasks();
 
 	return (
 		<div className={styles.wrapper}>
@@ -15,11 +25,15 @@ export const MainPage = () => {
 			<Statistic
 				tasks={tasks}
 			/>
+			<Filters
+				activeFilter={activeFilter}
+				onSetActiveFilter={setActiveFilter}
+			/>
 			<Input
 				onAdd={addTask}
 			/>
 			<TodoList
-				tasks={tasks}
+				tasks={filteredTasks}
 				onCheck={checkTask}
 				onDelete={deleteTask}
 				onEdit={editTask} />

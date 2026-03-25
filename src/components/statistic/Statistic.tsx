@@ -18,11 +18,11 @@ export const Statistic = ({tasks}: Props) => {
 				<div className={styles.label}>Всего дел</div>
 			</div>
 			<div className={styles.item}>
-				<div className={styles.value}>{completed}</div>
+				<div className={styles.value}>{active}</div>
 				<div className={styles.label}>Осталось</div>
 			</div>
 			<div className={styles.item}>
-				<div className={styles.value}>{active}</div>
+				<div className={styles.value}>{completed}</div>
 				<div className={styles.label}>Выполнено</div>
 			</div>
 		</div>

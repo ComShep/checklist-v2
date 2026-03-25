@@ -29,7 +29,7 @@ export const Input = ({onAdd}: Props) => {
 
 			/>
 			<button
-				disabled={false}
+				disabled={inputValue?.length === 0}
 				onClick={handleAddNewTask}>Добавить</button>
 		</div>
 	)

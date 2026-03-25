@@ -10,6 +10,15 @@ export const getTasksApi = async (): Promise<TasksPesponse> => {
 	return data
 }
 
+// запрос списка отфильтрованных задач
+// export const getFilteredTasksApi = async (filter: boolean): Promise<TasksPesponse> => {
+// 	const response = await fetch(`${url}tasks.json?orderBy="done"&equalTo=${filter}`)
+// 	const data = await response.json();
+
+// 	return data
+// }
+
+
 // запрос на добавление задачи
 export const addTaskApi = async (inputValue: string) => {
 	const newTask = {
