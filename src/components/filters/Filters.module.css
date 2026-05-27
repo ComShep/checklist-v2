@@ -26,3 +26,14 @@
 	color: white;
 	border-color: #2575fc;
 }
+
+@media (max-width: 500px) {
+	.filters{
+		padding: 10px 10px;
+		justify-content: space-between;
+	}
+
+	.btn{
+		padding: 8px 10px;
+	}
+}

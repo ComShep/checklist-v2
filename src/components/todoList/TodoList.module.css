@@ -1,13 +1,16 @@
 .wrapper {
 	padding: 10px;
 	min-height: 300px;
-	max-height: 500px;      
   overflow-y: auto;         
   overflow-x: hidden;      
 }
 
 .empty {
-	text-align: center;
+	min-height: 300px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	padding: 60px 20px;
 	color: #888;
 }
@@ -17,3 +20,8 @@
 	margin-bottom: 10px;
 }
 
+@media (max-width: 500px) {
+	.wrapper {
+		padding: 0px;
+	}
+}

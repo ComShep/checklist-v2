@@ -10,12 +10,14 @@ export const MainPage = () => {
 
 	return (
 		<div className={styles.wrapper}>
-			<Header />
-			<Statistic/>
-			<Filters/>
-			<Input/>
-			<TodoList/>
-			<Footer />
+			<div className={styles.container}>
+				<Header />
+				<Statistic/>
+				<Filters/>
+				<Input/>
+				<TodoList/>
+				<Footer />
+			</div>
 		</div>
 	)
 }

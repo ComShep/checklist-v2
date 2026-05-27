@@ -39,6 +39,15 @@
 
 .input button:disabled {
   pointer-events: none;
-  opacity: 0.6; /* визуально показываем, что неактивна */
+  opacity: 0.6; 
 }
 
+@media (max-width: 500px) {
+	.input {
+		padding: 10px 10px;
+		flex-direction: column;
+	}
+	.input button{
+		padding: 15px 20px;
+	}
+}
