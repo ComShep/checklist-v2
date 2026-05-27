@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { FilterType, TasksList } from "../types/types";
-import { getTasksApi, toggleTaskApi } from "../api/api";
+import { addTaskApi, getTasksApi, toggleTaskApi } from "../api/api";
 import { devtools } from "zustand/middleware";
 
 interface TaskState {
@@ -13,7 +13,8 @@ interface TaskAction {
   loadData: () => void;
   setActiveFilter: (filterType: FilterType) => void;
   getFilteredTasks: () => void;
-	checkTask: (id: string, currentDone: boolean) => void
+	checkTask: (id: string, currentDone: boolean) => void;
+	addTask: (inputValue: string) => void;
 }
 
 type TaskStore = TaskState & TaskAction;
@@ -62,6 +63,15 @@ const useTasksStore = create<TaskStore>()(
         }
       },
 
+			addTask: async (inputValue) => {
+				try {
+					const newTask = await addTaskApi(inputValue);
+					const { tasks } = get();
+					set({ tasks: tasks ? [...tasks, newTask] : [newTask] });
+				} catch (error) {
+					console.log(error)
+				}
+			},
 			
 			checkTask: async (id, currentDone) => {
 				const { tasks } = get();
@@ -72,6 +82,7 @@ const useTasksStore = create<TaskStore>()(
 					const changedTasks = tasks.map(task => task.id === id ? {...task, done: !task.done} : task );
 					set({tasks: changedTasks})
 				} catch (error) {
+					console.log(error)
 					set({tasks: prevTasks})
 				}
 			}

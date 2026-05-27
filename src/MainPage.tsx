@@ -13,7 +13,7 @@ export const MainPage = () => {
 	const {
 		// tasks,
 		// filteredTasks,
-		addTask, 
+		// addTask, 
 		editTask, 
 		// checkTask, 
 		deleteTask, 
@@ -42,9 +42,7 @@ export const MainPage = () => {
 			<Header />
 			<Statistic/>
 			<Filters/>
-			<Input
-				onAdd={addTask}
-			/>
+			<Input/>
 			<TodoList
 				tasks={filteredTasks}
 				onCheck={checkTask}

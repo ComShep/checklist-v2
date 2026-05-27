@@ -1,13 +1,11 @@
 import { useState, type ChangeEvent } from 'react'
-
 import styles from './Input.module.css'
+import useTasksStore from '../../store/useTasksStore'
 
-type Props = {
-	onAdd: (inputValue: string) => void
-}
 
-export const Input = ({onAdd}: Props) => {
-	const [inputValue, setInputValue] = useState<string | undefined>('')
+export const Input = () => {
+	const [inputValue, setInputValue] = useState<string | undefined>('');
+	const addTask = useTasksStore((state) => state.addTask); 
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setInputValue(event.target.value)
@@ -15,7 +13,7 @@ export const Input = ({onAdd}: Props) => {
 
 	const handleAddNewTask = () => {
 		if (inputValue !== undefined) {
-			onAdd(inputValue)
+			addTask(inputValue)
 		}
 		setInputValue('')
 	}
