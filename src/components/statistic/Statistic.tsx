@@ -1,11 +1,8 @@
-import type { TasksList } from '../../types/types'
+import useTasksStore from '../../store/useTasksStore'
 import styles from './Statistic.module.css'
 
-type Props = {
-	tasks: TasksList | null
-}
-
-export const Statistic = ({tasks}: Props) => {
+export const Statistic = () => {
+	const tasks = useTasksStore((state) => state.tasks);
 	const total = tasks === null ? 0 : tasks.length
 	const completed = tasks === null ? 0 : (tasks.filter(task => task.done === true)).length; 
 	const active = total - completed;

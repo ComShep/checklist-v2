@@ -15,7 +15,7 @@ export const MainPage = () => {
 		// filteredTasks,
 		addTask, 
 		editTask, 
-		checkTask, 
+		// checkTask, 
 		deleteTask, 
 		// activeFilter, 
 		// setActiveFilter, 
@@ -24,12 +24,13 @@ export const MainPage = () => {
 	const tasks = useTasksStore((state) => state.tasks);
 	const activeFilter = useTasksStore((state) => state.activeFilter);
 	const filteredTasks = useTasksStore((state) => state.filteredTasks);
-	// const setActiveFilter = useTasksStore((state) => state.setActiveFilter);
 	const loadData = useTasksStore((state) => state.loadData);
 	const getFilteredTasks = useTasksStore((state) => state.getFilteredTasks);
 
+	const checkTask = useTasksStore((state) => state.checkTask); 
+
 	useEffect(() => {
-			loadData();
+		loadData();
 	}, [])
 
 	useEffect(() => {
@@ -39,9 +40,7 @@ export const MainPage = () => {
 	return (
 		<div className={styles.wrapper}>
 			<Header />
-			<Statistic
-				tasks={tasks}
-			/>
+			<Statistic/>
 			<Filters/>
 			<Input
 				onAdd={addTask}
