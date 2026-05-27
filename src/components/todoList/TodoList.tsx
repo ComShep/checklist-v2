@@ -1,16 +1,13 @@
 import { Task } from '../todoItem/Task'
 import styles from './TodoList.module.css'
-import type { TasksList } from '../../types/types'
+import useTasksStore from '../../store/useTasksStore'
+import { useTasksData } from '../../hooks/useTasksData'
 
-type Props = {
-	tasks: TasksList | null,
-	onCheck: (id: string, currentDone: boolean) => void,
-	onDelete: (id: string) => void
-	onEdit: (id: string, text: string) => void
-}
-
-export const TodoList = ({tasks, onCheck, onDelete, onEdit}: Props) => {
-
+export const TodoList = () => {
+	const { tasks } = useTasksData();
+	const checkTask = useTasksStore((state) => state.checkTask); 
+	const editTask = useTasksStore((state) => state.editTask);
+	const deleteTask = useTasksStore((state) => state.deleteTask); 
 
 	if (tasks === null) {
 		return <div className={styles.empty}>
@@ -31,9 +28,9 @@ export const TodoList = ({tasks, onCheck, onDelete, onEdit}: Props) => {
 				<Task
 					key={task.id}
 					task={task}
-					onCheck={onCheck}
-					onDelete={onDelete}
-					onEdit={onEdit}
+					onCheck={checkTask}
+					onDelete={deleteTask}
+					onEdit={editTask}
 				/>
 			))}
 		</div>

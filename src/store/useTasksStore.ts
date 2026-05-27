@@ -1,6 +1,12 @@
 import { create } from "zustand";
 import type { FilterType, TasksList } from "../types/types";
-import { addTaskApi, getTasksApi, toggleTaskApi } from "../api/api";
+import {
+  addTaskApi,
+  deleteTaskApi,
+  editTaskApi,
+  getTasksApi,
+  toggleTaskApi,
+} from "../api/api";
 import { devtools } from "zustand/middleware";
 
 interface TaskState {
@@ -13,8 +19,10 @@ interface TaskAction {
   loadData: () => void;
   setActiveFilter: (filterType: FilterType) => void;
   getFilteredTasks: () => void;
-	checkTask: (id: string, currentDone: boolean) => void;
-	addTask: (inputValue: string) => void;
+  checkTask: (id: string, currentDone: boolean) => void;
+  addTask: (inputValue: string) => void;
+	editTask: (id: string, text: string) => void;
+  deleteTask: (id: string) => void;
 }
 
 type TaskStore = TaskState & TaskAction;
@@ -63,29 +71,58 @@ const useTasksStore = create<TaskStore>()(
         }
       },
 
-			addTask: async (inputValue) => {
+      addTask: async (inputValue) => {
+        try {
+          const newTask = await addTaskApi(inputValue);
+          const { tasks } = get();
+          set({ tasks: tasks ? [...tasks, newTask] : [newTask] });
+        } catch (error) {
+          console.log(error);
+        }
+      },
+
+      checkTask: async (id, currentDone) => {
+        const { tasks } = get();
+        if (tasks === null) return;
+        const prevTasks = tasks;
+        try {
+          await toggleTaskApi(id, currentDone);
+          const changedTasks = tasks.map((task) =>
+            task.id === id ? { ...task, done: !task.done } : task,
+          );
+          set({ tasks: changedTasks });
+        } catch (error) {
+          console.log(error);
+          set({ tasks: prevTasks });
+        }
+      },
+
+      editTask: async (id, text) => {
 				try {
-					const newTask = await addTaskApi(inputValue);
+					await editTaskApi(id, text);
 					const { tasks } = get();
-					set({ tasks: tasks ? [...tasks, newTask] : [newTask] });
+					if (tasks !== null) {
+						const changedTasks = tasks.map(task => 
+							task.id === id ? {...task, text: text} : task
+						)
+						set({tasks: changedTasks})
+					}
 				} catch (error) {
-					console.log(error)
+					console.log(error);
 				}
-			},
-			
-			checkTask: async (id, currentDone) => {
-				const { tasks } = get();
-				if (tasks === null) return;
-				const prevTasks = [...tasks]
-				try {
-					await toggleTaskApi(id, currentDone);
-					const changedTasks = tasks.map(task => task.id === id ? {...task, done: !task.done} : task );
-					set({tasks: changedTasks})
-				} catch (error) {
-					console.log(error)
-					set({tasks: prevTasks})
-				}
-			}
+      },
+
+      deleteTask: async (id) => {
+        try {
+          await deleteTaskApi(id);
+          const { tasks } = get();
+          if (tasks !== null) {
+            set({ tasks: tasks.filter((task) => task.id !== id) });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     { name: "TasksStore" },
   ),

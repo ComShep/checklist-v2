@@ -1,30 +1,22 @@
-import { useState,} from 'react'
-import type { TasksList } from '../types/types';
-
+import { useEffect } from 'react'
+import useTasksStore from '../store/useTasksStore';
 
 export function useTasksData() {
-	const [tasks, setTasks] = useState<TasksList | null>(null)
+	const tasks = useTasksStore((state) => state.tasks);
+	const activeFilter = useTasksStore((state) => state.activeFilter);
+	const filteredTasks = useTasksStore((state) => state.filteredTasks);
+	const loadData = useTasksStore((state) => state.loadData);
+	const getFilteredTasks = useTasksStore((state) => state.getFilteredTasks);
 
-	// const loadData = async () => {
-	// 	try {
-	// 		const data = await getTasksApi();
-	// 		const arrayOfData = Object.entries(data)
-	// 		const arrayOfTasks = arrayOfData.map(([id, task]) => ({
-	// 			id: id,
-	// 			...task
-	// 		}))
-	// 		setTasks(arrayOfTasks)
-	// 	} catch (err) {
-	// 		console.log(err)
-	// 	}
-	// }
+	useEffect(() => {
+		loadData();
+	}, [])
 
-	// useEffect(() => {
-	// 	loadData();
-	// }, [])
+	useEffect(() => {
+		getFilteredTasks();
+	}, [tasks, activeFilter, getFilteredTasks])
 
 	return {
-		tasks,
-		setTasks
+		tasks: filteredTasks
 	}
 }
