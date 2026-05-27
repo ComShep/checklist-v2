@@ -1,13 +1,13 @@
+import useTasksStore from '../../store/useTasksStore';
+import type { FilterType } from '../../types/types';
 import styles from './Filters.module.css'
 import clsx from 'clsx'
 
-type Props = {
-	activeFilter: string;
-	onSetActiveFilter: (activeFilter: string) => void
-}
 
-export const Filters = ({ activeFilter, onSetActiveFilter }: Props) => {
-	const filterButtonName = [
+export const Filters = () => {
+	const activeFilter = useTasksStore((state) => state.activeFilter);
+	const setActiveFilter = useTasksStore((state) => state.setActiveFilter);
+	const filterButtonName: { key: FilterType; name: string }[] = [
 		{
 			key: 'all',
 			name: 'Все дела'
@@ -22,8 +22,8 @@ export const Filters = ({ activeFilter, onSetActiveFilter }: Props) => {
 		},
 	]
 
-	const handleActiveFilter = (filterName: string) => {
-		onSetActiveFilter(filterName)
+	const handleActiveFilter = (filterType: FilterType) => {
+		setActiveFilter(filterType)
 	}
 
 	return (

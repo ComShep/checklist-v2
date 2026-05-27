@@ -6,18 +6,35 @@ import { TodoList } from './components/todoList/TodoList'
 import styles from './MainPage.module.css'
 import { useTasks } from './hooks/useTasks'
 import { Filters } from './components/filters/Filters'
+import useTasksStore from './store/useTasksStore'
+import { useEffect } from 'react'
 
 export const MainPage = () => {
 	const {
-		tasks,
-		filteredTasks,
+		// tasks,
+		// filteredTasks,
 		addTask, 
 		editTask, 
 		checkTask, 
 		deleteTask, 
-		activeFilter, 
-		setActiveFilter, 
+		// activeFilter, 
+		// setActiveFilter, 
 	} = useTasks();
+
+	const tasks = useTasksStore((state) => state.tasks);
+	const activeFilter = useTasksStore((state) => state.activeFilter);
+	const filteredTasks = useTasksStore((state) => state.filteredTasks);
+	// const setActiveFilter = useTasksStore((state) => state.setActiveFilter);
+	const loadData = useTasksStore((state) => state.loadData);
+	const getFilteredTasks = useTasksStore((state) => state.getFilteredTasks);
+
+	useEffect(() => {
+			loadData();
+	}, [])
+
+	useEffect(() => {
+		getFilteredTasks();
+	}, [tasks, activeFilter, getFilteredTasks])
 
 	return (
 		<div className={styles.wrapper}>
@@ -25,10 +42,7 @@ export const MainPage = () => {
 			<Statistic
 				tasks={tasks}
 			/>
-			<Filters
-				activeFilter={activeFilter}
-				onSetActiveFilter={setActiveFilter}
-			/>
+			<Filters/>
 			<Input
 				onAdd={addTask}
 			/>

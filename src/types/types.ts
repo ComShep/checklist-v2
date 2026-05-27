@@ -5,6 +5,8 @@ export type TasksPesponse = {
 	}
 }
 
+export type FilterType = 'all' | 'active' | 'done';
+
 export type TaskItem = {
 	id: string
 	text: string
